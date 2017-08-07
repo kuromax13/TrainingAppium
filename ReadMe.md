@@ -39,16 +39,16 @@ public ConfigurationPage tapDeleteButton() {
 ### Test Run
 
 ```java
-    @Test
-    @TestCaseId("TC12")
-    @Title("Cancel deleting existing configuration")
-    public void cancelDeletingConfiguration() throws NoSuchElementException, MalformedURLException {
-        mainPage = populateRequiredData().tapSaveButton();
-        configurationPage = mainPage.tapMoreButton();
-        configurationPage.tapDeleteButton().cancelDeleteConfiguration();
+@Test
+@TestCaseId("TC12")
+@Title("Cancel deleting existing configuration")
+public void cancelDeletingConfiguration() throws NoSuchElementException, MalformedURLException {
+    mainPage = populateRequiredData().tapSaveButton();
+    configurationPage = mainPage.tapMoreButton();
+    configurationPage.tapDeleteButton().cancelDeleteConfiguration();
 
-        Assert.assertEquals(configurationPage.getConfigurationTitle().getText(), "configuration", "Incorrect title is displayed");
-    }
+    Assert.assertEquals(configurationPage.getConfigurationTitle().getText(), "configuration", "Incorrect title is displayed");
+}
 ```
 
  - From IDE:
@@ -60,6 +60,41 @@ Run command
 mvn clean install
 ```
 By default tests run on iPhone 6s device. To run tests on different device - open "app.properties" and change 'deviceName' and 'uuid'. 
+
+Appium server and simulator will be started automatically before test run.
+
+See Driver.startServer():
+```java
+private static AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
+```
+```java
+public static void startServer() {
+    if (!service.isRunning()){
+        service.start();
+    } else {
+        log.info("[Driver] Appium server is already started");
+    }
+}
+```
+
+Apiium server and simulator will be stopped automatically after test run.
+
+See Driver.storServer():
+```java
+public static void stopServer() {
+    if (service.isRunning()){
+        String kill[] = {"killall","Simulator"};
+        try {
+            Runtime.getRuntime().exec(kill);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+            service.stop();
+    } else {
+        log.info("[Driver] Appium server is already stoped");
+    }
+}
+```
 
  - From AWS:
 Currently framework contains all necessary dependencies to run tess on AWS.
