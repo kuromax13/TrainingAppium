@@ -37,7 +37,12 @@ public ConfigurationPage tapDeleteButton() {
 
 
 ### Test Run
-
+> Before run tests make sure Xcode is installed on your machine. Also get the list of available simulators on your machine to run tests.
+To get the list of simulators and uuids on your machine - run following command:
+```ssh
+instruments -s devices
+```
+Here is how test class looks like
 ```java
 @Test
 @TestCaseId("TC12")
@@ -59,7 +64,7 @@ Run command
 ```sh
 mvn clean install
 ```
-By default tests run on iPhone 6s device. To run tests on different device - open "app.properties" and change 'deviceName' and 'uuid'. 
+By default tests run on **iPhone 6s** device. To run tests on different device - open "app.properties" and change 'deviceName' and 'uuid'. 
 
 Appium server and simulator will be started automatically before test run.
 
