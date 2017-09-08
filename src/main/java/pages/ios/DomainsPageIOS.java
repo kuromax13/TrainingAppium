@@ -1,4 +1,4 @@
-package pages;
+package pages.ios;
 
 import configuration.Driver;
 import io.appium.java_client.ios.IOSDriver;
@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
  * Class represents Domains page.
  * Contains methods to work with elements on the page
  */
-public class DomainsPage extends BasePage {
+public class DomainsPageIOS extends BasePageIOS {
 
     @iOSFindBy(id = "Save")
     private IOSElement saveButton;
@@ -25,7 +25,7 @@ public class DomainsPage extends BasePage {
     @iOSFindBy(xpath = "//XCUIElementTypeTextView")
     private IOSElement inputField;
 
-    public DomainsPage(IOSDriver driver) {
+    public DomainsPageIOS(IOSDriver driver) {
         super(driver);
     }
 
@@ -42,14 +42,30 @@ public class DomainsPage extends BasePage {
     }
 
     @Step("Tap saveButton button")
-    public MainPage tapSaveButton() throws MalformedURLException {
+    public MainPageIOS tapSaveButton() throws MalformedURLException {
         tap(saveButton);
 
-        return new MainPage(Driver.getDriver());
+        return new MainPageIOS(Driver.getDriver());
     }
 
     @Step("Clear inputField")
-    public void clearInputField() {
+    public DomainsPageIOS clearInputField() {
         inputField.clear();
+
+        return this;
+    }
+
+    @Step("Tap to make focus on input field")
+    public DomainsPageIOS makeFocusOnInputField(){
+        tap(inputField);
+
+        return this;
+    }
+
+    @Step("Fill in input text with {0}")
+    public DomainsPageIOS inputTextIntoField(String text){
+        inputText(inputField, text);
+
+        return this;
     }
 }

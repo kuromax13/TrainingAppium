@@ -1,6 +1,5 @@
-package pages;
+package pages.ios;
 
-import configuration.Driver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.iOSFindBy;
@@ -12,7 +11,7 @@ import ru.yandex.qatools.allure.annotations.Step;
  * Class represents Information page.
  * Contains methods to work with elements on the page
  */
-public class InformationPage extends BasePage {
+public class InformationPageIOS extends BasePageIOS {
 
     @iOSFindBy(id = "Acknowledgements")
     private IOSElement acknowledgementsButton;
@@ -23,7 +22,7 @@ public class InformationPage extends BasePage {
     @iOSFindBy(id = "1.0")
     private IOSElement versionText;
 
-    public InformationPage(IOSDriver driver) {
+    public InformationPageIOS(IOSDriver driver) {
         super(driver);
     }
 
@@ -40,9 +39,9 @@ public class InformationPage extends BasePage {
     }
 
     @Step("Tap acknowledgementsButton button and navigate to Acknowledgements page")
-    public AcknowledgementsPage tapAcknowledgementsButton(){
+    public AcknowledgementsPageIOS tapAcknowledgementsButton(){
         tap(acknowledgementsButton);
 
-        return new AcknowledgementsPage(Driver.getDriver());
+        return (AcknowledgementsPageIOS) transitionToPage(AcknowledgementsPageIOS.class);
     }
 }

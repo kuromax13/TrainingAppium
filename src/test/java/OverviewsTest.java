@@ -1,6 +1,7 @@
 import configuration.TestListenerClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import pages.ios.*;
 import ru.yandex.qatools.allure.annotations.*;
 
 import java.net.MalformedURLException;
@@ -12,11 +13,14 @@ import java.net.MalformedURLException;
 @Description("Set of tests to verify pages contains correct elements")
 @Listeners({ TestListenerClass.class })
 public class OverviewsTest extends BaseTest {
+    MainPageIOS mainPage;
 
     @Test
     @TestCaseId("TC01")
     @Title("Main page overview")
     public void mainPageOverview() throws MalformedURLException {
+        mainPage = getMainPage();
+
         softAssert.assertTrue(mainPage.getVpnOnTitle().isDisplayed(), "'VPN On' title is not displayed");
         softAssert.assertTrue(mainPage.getRefreshButton().isDisplayed(), "Refresh button is not displayed");
         softAssert.assertTrue(mainPage.getRefreshButton().isDisplayed(), "Refresh button is not disabled");
@@ -32,7 +36,7 @@ public class OverviewsTest extends BaseTest {
     @TestCaseId("TC02")
     @Title("Information page overview")
     public void informationPageOverview() throws MalformedURLException {
-        informationPage = mainPage.tapInformationPage();
+        InformationPageIOS informationPage = getMainPage().tapInformationPage();
 
         softAssert.assertTrue(informationPage.getVpnOnTitle().isDisplayed(), "Title is not displayed");
         softAssert.assertEquals(informationPage.getVpnOnTitle().getText(), "VPN On", "Title text is not correct");
@@ -49,7 +53,7 @@ public class OverviewsTest extends BaseTest {
     @TestCaseId("TC03")
     @Title("Acknowledgments page overview")
     public void acknowledgmentsPageOverview() throws MalformedURLException {
-        acknowledgementsPage = mainPage.tapInformationPage().tapAcknowledgementsButton();
+        AcknowledgementsPageIOS acknowledgementsPage = getMainPage().tapInformationPage().tapAcknowledgementsButton();
 
         softAssert.assertTrue(acknowledgementsPage.getAcknowledgementsTitle().isDisplayed(), "Acknowledgements title is not displayed");
         softAssert.assertEquals(acknowledgementsPage.getAcknowledgementsTitle().getText(), "Acknowledgements", "Acknowledgements text is not correct");
@@ -63,12 +67,12 @@ public class OverviewsTest extends BaseTest {
     @TestCaseId("TC04")
     @Title("Domains page overview")
     public void domainsPageOverview() throws MalformedURLException {
-        mainPage.switchOnDemandToggle();
+        mainPage = getMainPage().switchOnDemandToggle();
 
         softAssert.assertTrue(mainPage.getOnDemand().isDisplayed(), "'Add new configuration' button is not displayed");
         softAssert.assertEquals(mainPage.getDefaultDomainsButton().getText(), "0 Domains");
 
-        domainsPage = mainPage.tapDomainsButton();
+        DomainsPageIOS domainsPage = mainPage.tapDomainsButton();
 
         softAssert.assertTrue(domainsPage.getBackButton().isDisplayed(), "Back button is not displayed");
         softAssert.assertTrue(domainsPage.getVpnOnTitle().isDisplayed(), "Title is not displayed");
@@ -84,7 +88,7 @@ public class OverviewsTest extends BaseTest {
     @TestCaseId("TC05")
     @Title("configuration page overview")
     public void configurationPageOverview() throws MalformedURLException {
-        configurationPage = mainPage.tapAddNewConfigurationButton();
+        ConfigurationPageIOS configurationPage = getMainPage().tapAddNewConfigurationButton();
 
         softAssert.assertTrue(configurationPage.getBackButton().isDisplayed(), "Back button is not displayed");
         softAssert.assertTrue(configurationPage.getConfigurationTitle().isDisplayed(), "configuration title is not displayed");

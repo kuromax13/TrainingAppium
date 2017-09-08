@@ -4,7 +4,7 @@ import com.google.common.io.Closeables;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
-import pages.BasePage;
+import pages.ios.BasePageIOS;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,7 @@ import java.util.Properties;
  */
 public class DriverConfiguration {
     private static Properties p = new Properties();
-    private static final Logger log = LogManager.getLogger(BasePage.class);
+    private static final Logger log = LogManager.getLogger(BasePageIOS.class);
 
     public DriverConfiguration() {
         ClassPathResource resource = new ClassPathResource("app.properties");
@@ -54,5 +54,13 @@ public class DriverConfiguration {
 
     public String getUrl() {
         return p.getProperty("generalUrl");
+    }
+
+    public String getAppPackage() {
+        return p.getProperty("appPackage");
+    }
+
+    public String getAppActivity() {
+        return p.getProperty("appActivity");
     }
 }

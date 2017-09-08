@@ -1,4 +1,4 @@
-package pages;
+package pages.ios;
 
 import configuration.Driver;
 import io.appium.java_client.ios.IOSDriver;
@@ -18,9 +18,9 @@ import java.util.NoSuchElementException;
  * Class represents configuration page.
  * Contains methods to work with elements on the page
  */
-public class ConfigurationPage extends BasePage {
+public class ConfigurationPageIOS extends BasePageIOS {
 
-    @iOSFindBy(id = "configuration")
+    @iOSFindBy(id = "Configuration")
     private IOSElement configurationTitle;
 
     @iOSFindBy(id = "Save")
@@ -74,76 +74,62 @@ public class ConfigurationPage extends BasePage {
     @iOSFindBy(id = "Cancel")
     private IOSElement cancelDeleteButton;
 
-    public ConfigurationPage(IOSDriver driver) {
+    public ConfigurationPageIOS(IOSDriver driver) {
         super(driver);
     }
 
-    @Step("Get configurationTitle element")
     public IOSElement getConfigurationTitle() {
         return configurationTitle;
     }
 
-    @Step("Get saveButton element")
     public IOSElement getSaveButton() {
         return saveButton;
     }
 
-    @Step("Get ciscoButton element")
     public IOSElement getCiscoButton() {
         return ciscoButton;
     }
 
-    @Step("Get ikeButton element")
     public IOSElement getIkeButton() {
         return ikeButton;
     }
 
-    @Step("Get description element")
     public IOSElement getDescription() {
         return description;
     }
 
-    @Step("Get server element")
     public IOSElement getServer() {
         return server;
     }
 
-    @Step("Get account element")
     public IOSElement getAccount() {
         return account;
     }
 
-    @Step("Get password element")
     public IOSElement getPassword() {
         return password;
     }
 
-    @Step("Get secret element")
     public IOSElement getSecret() {
         return secret;
     }
 
-    @Step("Get group element")
     public IOSElement getGroup() {
         return group;
     }
 
-    @Step("Get remoteId element")
     public IOSElement getRemoteId() {
         return remoteId;
     }
 
-    @Step("Get alwaysOnToggle element")
     public IOSElement getAlwaysOnToggle() {
         return alwaysOnToggle;
     }
 
-    @Step("Get duplicateButton element")
     public IOSElement getDuplicateButton() {
         return duplicateButton;
     }
 
-    @Step("Get return element")
     public IOSElement getDeleteVpnButton() {
         return deleteVpnButton;
     }
@@ -173,14 +159,14 @@ public class ConfigurationPage extends BasePage {
     }
 
     @Step("Tap saveButton button")
-    public MainPage tapSaveButton() throws MalformedURLException {
+    public MainPageIOS tapSaveButton() throws MalformedURLException {
         tap(saveButton);
 
-        return new MainPage(Driver.getDriver());
+        return (MainPageIOS) transitionToPage(MainPageIOS.class);
     }
 
     @Step("Enter \"{1}\" into \"{0}\" input field")
-    public ConfigurationPage inputTextIntoField(String inputField, String inputText) throws NoSuchElementException {
+    public ConfigurationPageIOS inputTextIntoField(String inputField, String inputText) throws NoSuchElementException {
         if (inputField.equals("Description")){
             inputFields.get(0).clear();
             inputFields.get(0).sendKeys(inputText);
@@ -209,34 +195,34 @@ public class ConfigurationPage extends BasePage {
     }
 
     @Step("Tap ikeButton button")
-    public ConfigurationPage selectIkev() {
+    public ConfigurationPageIOS selectIkev() {
         tap(ikeButton);
         return this;
     }
 
     @Step("Tap duplicateButton button and navigate to Main page")
-    public MainPage tapDuplicateButton() throws MalformedURLException {
+    public MainPageIOS tapDuplicateButton() throws MalformedURLException {
         tap(duplicateButton);
-        return new MainPage(Driver.getDriver());
+        return (MainPageIOS) transitionToPage(MainPageIOS.class);
     }
 
     @Step("Tap deleteVpnButton button")
-    public ConfigurationPage tapDeleteButton() {
+    public ConfigurationPageIOS tapDeleteButton() {
         tap(deleteVpnButton);
         return this;
     }
 
     @Step("Tap confirmDeleteButton button, wait confirmation pop-up disappears and navigate to Main Page")
-    public MainPage confirmDeleteConfiguration() throws MalformedURLException {
+    public MainPageIOS confirmDeleteConfiguration() throws MalformedURLException {
         tap(confirmDeleteButton);
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
 
         wait.until(ExpectedConditions.invisibilityOf(deleteVpnButton));
-        return new MainPage(Driver.getDriver());
+        return (MainPageIOS) transitionToPage(MainPageIOS.class);
     }
 
     @Step("Tap cancelDeleteButton button")
-    public ConfigurationPage cancelDeleteConfiguration() {
+    public ConfigurationPageIOS cancelDeleteConfiguration() {
         tap(cancelDeleteButton);
 
         return this;

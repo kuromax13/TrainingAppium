@@ -1,7 +1,9 @@
 import configuration.Driver;
-import pages.*;
+import io.appium.java_client.android.AndroidDriver;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+import pages.android.AndroidMainPage;
+import pages.ios.MainPageIOS;
 
 import java.net.MalformedURLException;
 
@@ -9,12 +11,7 @@ import java.net.MalformedURLException;
  * Created by mrybalkin on 7/28/17.
  */
 public class BaseTest {
-    DomainsPage domainsPage;
-    MainPage mainPage;
-    ConfigurationPage configurationPage;
     SoftAssert softAssert;
-    InformationPage informationPage;
-    AcknowledgementsPage acknowledgementsPage;
 
     @BeforeSuite
     public void beforeSuite() throws MalformedURLException {
@@ -24,7 +21,6 @@ public class BaseTest {
 
     @BeforeMethod
     public void beforeMethod() throws MalformedURLException {
-        mainPage = new MainPage(Driver.getDriver());
         Driver.getDriver().launchApp();
     }
 
@@ -37,4 +33,13 @@ public class BaseTest {
     public void afterSuite(){
         Driver.stopServer();
     }
+
+    public MainPageIOS getMainPage() throws MalformedURLException {
+        return new MainPageIOS(Driver.getDriver());
+    }
+
+    public AndroidMainPage getAndroidMainPage(){
+        return new AndroidMainPage((AndroidDriver) Driver.getDriver());
+    }
+
 }

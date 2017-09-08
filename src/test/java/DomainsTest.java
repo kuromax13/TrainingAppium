@@ -2,6 +2,8 @@ import configuration.TestListenerClass;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import pages.ios.DomainsPageIOS;
+import pages.ios.MainPageIOS;
 import ru.yandex.qatools.allure.annotations.Description;
 import ru.yandex.qatools.allure.annotations.TestCaseId;
 import ru.yandex.qatools.allure.annotations.Title;
@@ -15,14 +17,17 @@ import java.net.MalformedURLException;
 @Description("Set of tests to verify functionality on Domain page")
 @Listeners({ TestListenerClass.class })
 public class DomainsTest extends BaseTest {
+    MainPageIOS mainPage;
 
     @Test
     @TestCaseId("TC06")
     @Title("Add New Domain")
     public void addNewDomain() throws MalformedURLException {
-        domainsPage = mainPage.switchOnDemandToggle().tapDomainsButton();
+        DomainsPageIOS domainsPage = getMainPage()
+                .switchOnDemandToggle()
+                .tapDomainsButton()
+                .inputTextIntoField("Test");
 
-        domainsPage.inputText(domainsPage.getInputField(), "Test");
         Assert.assertTrue(domainsPage.getSaveButton().isEnabled(), "'Save' button is not enabled");
 
         mainPage = domainsPage.tapSaveButton();
@@ -34,15 +39,15 @@ public class DomainsTest extends BaseTest {
     @TestCaseId("TC07")
     @Title("Update Existing Domain")
     public void updateExistingDomain() throws MalformedURLException {
-        domainsPage = mainPage.switchOnDemandToggle().tapDomainsButton();
+        mainPage = getMainPage()
+                .switchOnDemandToggle()
+                .tapDomainsButton()
+                .inputTextIntoField("Test")
+                .tapSaveButton()
+                .tapDomainsButton()
+                .inputTextIntoField( "New ")
+                .tapSaveButton();
 
-        domainsPage.inputText(domainsPage.getInputField(), "Test");
-
-        mainPage = domainsPage.tapSaveButton();
-
-        mainPage.tapDomainsButton();
-        domainsPage.inputText(domainsPage.getInputField(), "New ");
-        domainsPage.tapSaveButton();
         Assert.assertEquals(mainPage.getCreatedDomainsNumber(), "2 Domains", "Incorrect number of domains is displayed");
     }
 
@@ -51,15 +56,16 @@ public class DomainsTest extends BaseTest {
     @TestCaseId("TC08")
     @Title("Delete Existing Domain")
     public void deleteExistingDomain() throws MalformedURLException {
-        domainsPage = mainPage.switchOnDemandToggle().tapDomainsButton();
-        domainsPage.inputText(domainsPage.getInputField(), "Test");
 
-        mainPage = domainsPage.tapSaveButton();
-
-        mainPage.tapDomainsButton();
-        domainsPage.getInputField().click();
-        domainsPage.clearInputField();
-        domainsPage.tapSaveButton();
+        mainPage = getMainPage()
+                .switchOnDemandToggle()
+                .tapDomainsButton()
+                .inputTextIntoField("Test")
+                .tapSaveButton()
+                .tapDomainsButton()
+                .makeFocusOnInputField()
+                .clearInputField()
+                .tapSaveButton();
 
         Assert.assertEquals(mainPage.getCreatedDomainsNumber(), "0 Domains", "Incorrect number of domains is displayed");
     }

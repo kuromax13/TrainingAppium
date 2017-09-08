@@ -1,13 +1,14 @@
-package pages;
+package pages.ios;
 
 import configuration.Driver;
-import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import org.openqa.selenium.By;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 /**
  * Created by mrybalkin on 7/12/17.
@@ -15,7 +16,7 @@ import java.net.MalformedURLException;
  * Class represents Main page.
  * Contains methods to work with elements on the page
  */
-public class MainPage extends BasePage {
+public class MainPageIOS extends BasePageIOS {
 
     @iOSFindBy(id = "Not Connected")
     private IOSElement notConnectedText;
@@ -35,7 +36,7 @@ public class MainPage extends BasePage {
     @iOSFindBy(id = "0 Domains")
     private IOSElement defaultDomainsButton;
 
-    @iOSFindBy(id = "Add VPN configuration...")
+    @iOSFindBy(id = "Add VPN Configuration...")
     private IOSElement addVpnConfiguration;
 
     @iOSFindBy(id = "⌥")
@@ -50,97 +51,98 @@ public class MainPage extends BasePage {
     @iOSFindBy(id = "VPN CONFIGURATIONS")
     private IOSElement vpnConfigurationHeader;
 
-    public MainPage(IOSDriver<IOSElement> driver) throws MalformedURLException {
+    @iOSFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Domains relies on VPN \"]/following::XCUIElementTypeStaticText")
+    private IOSElement createdDomainsNumber;
+
+    @iOSFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"VPN CONFIGURATIONS\"]/following::XCUIElementTypeCell")
+    private List<IOSElement> newConfigurationNumber;
+
+    public MainPageIOS(AppiumDriver driver) throws MalformedURLException {
         super(driver);
     }
 
-    @Step("Get notConnectedText element")
     public IOSElement getNotConnected() {
         return notConnectedText;
     }
 
-    @Step("Get onDemandText element")
     public IOSElement getOnDemand() {
         return onDemandText;
     }
 
-    @Step("Get addVpnConfiguration element")
     public IOSElement getAddVpnConfiguration() {
         return addVpnConfiguration;
     }
 
-    @Step("Get acknowledgementsButton element")
     public IOSElement getAcknowledgementsButton() {
         return acknowledgementsButton;
     }
 
-    @Step("Get refreshButton element")
     public IOSElement getRefreshButton() {
         return refreshButton;
     }
 
-    @Step("Get defaultDomainsButton element")
     public IOSElement getDefaultDomainsButton() {
         return defaultDomainsButton;
     }
 
-    @Step("Get vpnConfigurationHeader element")
     public IOSElement getVpnConfigurationHeader() {
         return vpnConfigurationHeader;
     }
 
-    @Step("Get moreInfoButton element")
     public IOSElement getMoreInfoButton() {
         return moreInfoButton;
     }
 
     @Step("Switch onDemandToggle on")
-    public MainPage switchOnDemandToggle() {
+    public MainPageIOS switchOnDemandToggle() {
         switchToggleOn(onDemandToggle);
 
         return this;
     }
 
     @Step("Tap acknowledgementsButton")
-    public InformationPage tapInformationPage() {
+    public InformationPageIOS tapInformationPage() {
         tap(acknowledgementsButton);
 
-        return new InformationPage(Driver.getDriver());
+        return (InformationPageIOS) transitionToPage(InformationPageIOS.class);
     }
 
-    @Step("Tap addVpnConfiguration and navigate to ConfigurationPage")
-    public ConfigurationPage tapAddNewConfigurationButton(){
+    @Step("Tap addVpnConfiguration and navigate to ConfigurationPageIOS")
+    public ConfigurationPageIOS tapAddNewConfigurationButton() {
         tap(addVpnConfiguration);
 
-        return new ConfigurationPage(Driver.getDriver());
+        return (ConfigurationPageIOS) transitionToPage(ConfigurationPageIOS.class);
     }
 
-    @Step("Tap domainsText and navigate to DomainsPage")
-    public DomainsPage tapDomainsButton(){
+    @Step("Tap domainsText and navigate to DomainsPageIOS")
+    public DomainsPageIOS tapDomainsButton(){
         tap(domainsText);
-        return new DomainsPage(Driver.getDriver());
+        return (DomainsPageIOS) transitionToPage(DomainsPageIOS.class);
     }
 
     @Step("Get number of created domains")
     public String getCreatedDomainsNumber() {
-        return Driver.getDriver().findElement((By.xpath("//XCUIElementTypeStaticText[@name=\"Domains relies on VPN \"]/following::XCUIElementTypeStaticText"))).getText();
+        return createdDomainsNumber.getText();
     }
 
     @Step("Get created configuration name number {0}")
     public String getNewConfigurationName(int configurationNumber) {
-        String xpath = "//XCUIElementTypeStaticText[@name=\"VPN CONFIGURATIONS\"]" +
-                "/following::XCUIElementTypeCell[" + configurationNumber + "]/XCUIElementTypeStaticText";
-        return Driver.getDriver().findElement(By.xpath(xpath)).getText();
+        return Driver.getDriver().findElement(By.xpath(newConfigurationNameXpath(configurationNumber))).getText();
     }
 
-    @Step("Tap moreInfoButton and navigate to ConfigurationPage")
-    public ConfigurationPage tapMoreButton() {
+    @Step("Tap moreInfoButton and navigate to ConfigurationPageIOS")
+    public ConfigurationPageIOS tapMoreButton() {
         tap(moreInfoButton);
-        return new ConfigurationPage(Driver.getDriver());
+        return (ConfigurationPageIOS) transitionToPage(ConfigurationPageIOS.class);
     }
 
     @Step("Get number of created configurations")
     public int getNewConfigurationNumber() {
-        return Driver.getDriver().findElements(By.xpath("//XCUIElementTypeStaticText[@name=\"VPN CONFIGURATIONS\"]/following::XCUIElementTypeCell")).size();
+        return newConfigurationNumber.size();
+    }
+
+   private String newConfigurationNameXpath(int configurationNumber){
+        return "//XCUIElementTypeStaticText[@name=\"VPN CONFIGURATIONS\"]" +
+                "/following::XCUIElementTypeCell[" + configurationNumber + "]/XCUIElementTypeStaticText";
     }
 }
